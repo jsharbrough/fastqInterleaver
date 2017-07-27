@@ -1,11 +1,10 @@
 import sys
 def fastqInterleaver(forwardReads,reverseReads):
-    '''Takes two paired-end fastq read files as input (preferably paired-end 
-    reads) and interleaves them. Only paired reads will be retained in the 
-    output fastq. The program will interleave paired forward and reverse reads 
-    and write them to standard out, listing forward reads first in the output 
-    file to conform with convention.To run, open a Unix environment and type the 
-    following:
+    '''Takes two paired-end fastq read files as input and interleaves them. Only paired 
+    reads will be retained in the     output fastq. The program will interleave paired 
+    forward and reverse reads and write them to standard out, listing forward reads 
+    first in the output file to conform with convention. To run, open a Unix 
+    environment and type the following:
     
     python fastqInterleaver.py forwardReads reverseReads > out.fastq
     
