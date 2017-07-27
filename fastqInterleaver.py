@@ -1,17 +1,13 @@
 import sys
 def fastqInterleaver(forwardReads,reverseReads):
-    '''Takes two fastq read files as input (preferably paired-end reads) and 
-    interleaves them. Only paired reads will be retained in the output fastq. 
-    Suffix for the input file must be "fastq" or the original filename will be 
-    lost and you may encounter errors. To run, open a Unix environment and type 
-    the following:
+    '''Takes two paired-end fastq read files as input (preferably paired-end 
+    reads) and interleaves them. Only paired reads will be retained in the 
+    output fastq. The program will interleave paired forward and reverse reads 
+    and write them to standard out, listing forward reads first in the output 
+    file to conform with convention.To run, open a Unix environment and type the 
+    following:
     
-    python fastqInterleaver.py <forwardReads> <reverseReads>
-    
-    The program will interleave paired forward and reverse reads. Forward reads
-    will be listed first in the output file, conforming to convention. The 
-    output file will be in fastq format and will use the file handle of the 
-    forward read file, minus the final character of the file handle prefix.
+    python fastqInterleaver.py forwardReads reverseReads > out.fastq
     
     Questions about the program should be sent to Joel Sharbrough at 
     jsharbro[at]gmail.com 
@@ -51,13 +47,12 @@ def fastqInterleaver(forwardReads,reverseReads):
     infile2 = open(reverseReads,'r')
     lineNum = 0
     readFileName = forwardReads[0:-7]
-    outfile = open(readFileName + '_interleaved.fastq','w')
     for line in infile2:
         if lineNum == 0:
             if seqName != '' and seqName in seqDict:
                 seqList = seqDict[seqName]
-                outfile.write(seqList[0])
-                outfile.write(currSeq)
+                sys.stdout.write(seqList[0])
+                sys.stdout.write(currSeq)
                 del seqDict[seqName]
             lineSplit = line.split(' ')
             seqName = lineSplit[0]
@@ -74,11 +69,9 @@ def fastqInterleaver(forwardReads,reverseReads):
             lineNum = 0
     if seqName in seqDict:
         seqList = seqDict[seqName]
-        outfile.write(seqList[0])
-        outfile.write(currSeq)
+        sys.stdout.write(seqList[0])
+        sys.stdout.write(currSeq)
     infile2.close()
-    readFileName = forwardReads[0:-7]
-    outfile.close()
 
 
 fastqInterleaver(sys.argv[1],sys.argv[2])
